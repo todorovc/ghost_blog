@@ -46,7 +46,7 @@ ansible-playbook acr_build.yaml
 
 This command builds the Docker image using the specified Dockerfile, logs in to the Azure Container Registry, and pushes the built Docker image to the registry.
 
-6.  az aks get-credentials --resource-group myResourceGroup --name myAKSCluste
+6.  az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
   
 7.  Deploy pvc. kubectl apply -f ghost-pvc.yaml
  
