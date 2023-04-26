@@ -50,7 +50,7 @@ This command builds the Docker image using the specified Dockerfile, logs in to 
   
 7.  Deploy pvc. kubectl apply -f ghost-pvc.yaml
  
-8.  Deploy the blog   kubectl apply -f ghost-pvc.yam
+8.  Deploy the blog   kubectl apply -f ghost-pvc.yaml
 
 Summary
 
