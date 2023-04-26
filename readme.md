@@ -43,6 +43,7 @@ Run the following command to execute the acr_build.yaml playbook:
 
 
 ansible-playbook acr_build.yaml
+
 This command builds the Docker image using the specified Dockerfile, logs in to the Azure Container Registry, and pushes the built Docker image to the registry.
 
 Summary
