@@ -36,7 +36,7 @@ terraform apply
 Confirm the changes by typing yes when prompted. This step provisions the AKS cluster and the Azure Container Registry.
 
 4. Set up the Ansible playbook
-Create an Ansible playbook called acr_build.yaml with the content provided in the previous answer. This playbook will build and push a Docker image to the Azure Container Registry.
+Create an Ansible playbook called acr_build.yaml  This playbook will build and push a Docker image to the Azure Container Registry.
 
 5. Execute the Ansible playbook
 Run the following command to execute the acr_build.yaml playbook:
