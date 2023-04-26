@@ -1,0 +1,22 @@
+---
+- name: Build and push Docker image to Azure Container Registry
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Build Docker image
+      command: "docker build -t {{ registry_name }}.azurecr.io/{{ image_name }}:{{ image_tag }} ."
+      args:
+        chdir: "{{ dockerfile_directory }}"
+
+    - name: Login to Azure Container Registry
+      command: "az acr login --name {{ registry_name }}"
+
+    - name: Push Docker image to Azure Container Registry
+      command: "docker push {{ registry_name }}.azurecr.io/{{ image_name }}:{{ image_tag }}"
+
+  vars:
+    registry_name: "myhelmacr9"
+    resource_group: "myResourceGroup"
+    image_name: "ghost"
+    image_tag: "v1"
+    dockerfile_directory: "."
