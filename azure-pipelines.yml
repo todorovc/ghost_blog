@@ -1,0 +1,56 @@
+trigger:
+  branches:
+    include:
+      - main
+
+jobs:
+  - job: TerraformInitApply
+    displayName: 'Terraform: Init, Plan, and Apply'
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - checkout: self
+      - task: TerraformInstaller@0
+        inputs:
+          terraformVersion: '1.0.0'
+      - task: AzureCLI@2
+        inputs:
+          azureSubscription: 'ghostblog' # Replace with your service connection name
+          scriptType: 'bash'
+          scriptLocation: 'inlineScript'
+          inlineScript: |
+            terraform init
+            terraform plan
+            echo "yes" | terraform apply
+          workingDirectory: $(Build.Repository.LocalPath) # Fix: Move the workingDirectory key inside inputs
+
+  - job: AnsiblePlaybook
+    displayName: 'Ansible: Execute Playbook'
+    dependsOn: TerraformInitApply
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - checkout: self
+      - script: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+          ansible-playbook acr_build.yaml
+        workingDirectory: $(Build.Repository.LocalPath)
+
+  - job: KubernetesDeployment
+    displayName: 'Kubernetes: Deploy Ghost Blog'
+    dependsOn: AnsiblePlaybook
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+      - script: |
+          az login --service-principal -u $(servicePrincipalId) -p $(servicePrincipalKey) --tenant $(tenantId)
+          az aks get-credentials --resource-group myResourceGroup --name myAKSCluster
+          kubectl apply -f ghost-pvc.yaml
+          kubectl apply -f ghost-deployment.yaml
+        workingDirectory: $(Build.Repository.LocalPath)
+        env:
+          servicePrincipalId: $(servicePrincipalId)
+          servicePrincipalKey: $(servicePrincipalKey)
+          tenantId: $(tenantId)
+
