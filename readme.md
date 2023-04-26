@@ -15,27 +15,23 @@ Steps
 Create the following Terraform configuration files:
 
 main.tf: This file contains the AKS and ACR provisioning configuration.
-mon.tf: This file contains the monitoring-related resources (optional).
-You can find examples of these files in the previous answers.
+
 
 2. Initialize Terraform
 Run the following command in the directory containing your Terraform configuration files:
 
-bash
-Copy code
+
 terraform init
 This command initializes the backend, downloads the required provider plugins, and sets up the backend for storing the Terraform state.
 
 3. Plan and apply the Terraform configuration
 Run the following command to view the planned changes:
 
-bash
-Copy code
+
 terraform plan
 Apply the Terraform configuration using the following command:
 
-bash
-Copy code
+
 terraform apply
 Confirm the changes by typing yes when prompted. This step provisions the AKS cluster and the Azure Container Registry.
 
@@ -45,8 +41,7 @@ Create an Ansible playbook called acr_build.yaml with the content provided in th
 5. Execute the Ansible playbook
 Run the following command to execute the acr_build.yaml playbook:
 
-bash
-Copy code
+
 ansible-playbook acr_build.yaml
 This command builds the Docker image using the specified Dockerfile, logs in to the Azure Container Registry, and pushes the built Docker image to the registry.
 
