@@ -52,3 +52,4 @@ This command builds the Docker image using the specified Dockerfile, logs in to 
 Summary
 
 By following these steps, you have provisioned an AKS cluster, created an Azure Container Registry, and used Ansible to build and push a Docker image to the registry. You can now deploy your applications to the AKS cluster and use the container images stored in the registry.
+CT
