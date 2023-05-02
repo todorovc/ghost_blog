@@ -1,0 +1,21 @@
+trigger:
+- main
+
+variables:
+  - group: 'AKS Connection'
+
+jobs:
+- job: Deploy
+  displayName: 'Deploy Ghost Blog to AKS'
+  pool:
+    vmImage: 'ubuntu-latest'
+
+  steps:
+  - task: Kubernetes@1
+    displayName: 'Deploy Ghost Blog'
+    inputs:
+      connectionType: 'Kubernetes Service Connection'
+      kubernetesServiceEndpoint: '$(aksServiceConnection)'
+      namespace: 'default'
+      command: 'apply'
+      arguments: '-f kubernetes/ghost-deployment.yaml -f kubernetes/ghost-service.yaml -f kubernetes/ghost-hpa.yaml'

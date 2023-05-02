@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ghost
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ghost
+  template:
+    metadata:
+      labels:
+        app: ghost
+    spec:
+      containers:
+      - name: ghost
+        image: ghost:latest
+        ports:
+        - containerPort: 2368
+        env:
+        - name: url
+          value: "http://your-blog-domain.com"
+        - name: database__client
+          value: "mysql"
+        - name: database__connection__host
+          value: "your-mysql-host"
+        - name: database__connection__user
+          value: "your-mysql-user"
+        - name: database__connection__password
+          valueFrom:
+            secretKeyRef:
+              name: ghost-db-password
+              key: password
+        - name: database__connection__database
+         
+      value: "your-mysql-database"
+    resources:
+      limits:
+        cpu: "500m"
+        memory: "256Mi"
+      requests:
+        cpu: "250m"
+        memory: "128Mi"
